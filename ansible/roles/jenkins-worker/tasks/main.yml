@@ -110,6 +110,10 @@
   when: "'scaleway-ubuntu1804-armv7l' in inventory_hostname"
   include: "{{ role_path }}/tasks/partials/scaleway-armv7.yml"
 
+- name: run docker-host-x64 jenkins-worker setup
+  when: "'ubuntu1804_docker-x64' in inventory_hostname"
+  include: "{{ role_path }}/tasks/partials/docker-host-x64.yml"
+
 # @TODO(mhdawson): get tap2junit working on zOS
 - name: prepare installing tap2junit
   when: type != "release" and not os|startswith("zos")

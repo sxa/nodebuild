@@ -120,7 +120,7 @@ packages: {
   ],
 
   ubuntu: [
-    'ccache,g++,gcc,git,libfontconfig1,sudo',
+    'ccache,g++,gcc,git,libfontconfig1,sudo,python3-pip',
   ],
 
   ubuntu1404: [
