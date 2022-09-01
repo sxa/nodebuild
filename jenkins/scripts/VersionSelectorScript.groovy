@@ -1,6 +1,8 @@
 // https://wiki.jenkins.io/display/JENKINS/matrix+groovy+execution+strategy+plugin
 // https://docs.oracle.com/javase/7/docs/api/java/util/regex/Pattern.html
 
+println("SXAECX")
+
 // Helper closures to make our buildExclusions DSL terse and readable
 def lt = { v -> { nodeVersion -> nodeVersion < v } }
 def gte = { v -> { nodeVersion -> nodeVersion >= v } }
@@ -187,6 +189,7 @@ combinations.each{
       return
     }
   }
+  println("SXAEC0")
   // Run tests on Windows ARM64 only if explicitly requested
   if (builderLabel =~ /^win.*COMPILED_BY.*-arm64$/) {
     if (!new String(parameters['RUN_ARM64_TESTS']).equalsIgnoreCase("true")){
