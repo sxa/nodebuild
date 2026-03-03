@@ -20,8 +20,9 @@ ROOTDIR=/var/lib/jenkins/jobs
 REGEX="${ROOTDIR}/.*/builds/[0-9]+"
 #JOBS="$ROOTDIR/*/builds/"
 #MULTIJOBS="$ROOTDIR/*/configurations/axis-*/*/builds/"
+ssh -i /root/.ssh/nodejs_build_backup $HOST find "$ROOTDIR" -depth -type d -regex "$REGEX" -mtime +$DAYS -exec "rm -rvf '{}' \;" 2>&1 | xz > /var/log/remove_old.$(date +%Y%m%d).xz
+
 CREDENTIALS=$(</root/.jenkins_credentials)
-ssh -i /root/.ssh/nodejs_build_backup $HOST find "$ROOTDIR" -depth -type d -regex "$REGEX" -mtime +$DAYS -exec "rm -rf '{}' \;"
 JENKINS_CRUMB=$(curl -sL --user "$CREDENTIALS" https://$HOST/'crumbIssuer/api/xml?xpath=concat(//crumbRequestField,":",//crumb)')
 curl -X POST -q --user "$CREDENTIALS" -H "$JENKINS_CRUMB" https://$HOST/reload
 
