@@ -24,6 +24,7 @@ if [ "$DONTSELECT_COMPILER" != "DONT" ]; then
     *arm64* ) SELECT_ARCH=ARM64 ;;
     *armv7l* ) SELECT_ARCH=ARMV7L ;;
     *ibmi74* ) SELECT_ARCH=IBMI74 ;;
+    *riscv64* ) SELECT_ARCH=RISCV64 ;;
   esac
 fi
 
@@ -88,6 +89,22 @@ if [ "$NODEJS_MAJOR_VERSION" -ge "25" ]; then
         echo "Using Clang for Node.js $NODEJS_MAJOR_VERSION"
         export CC="ccache clang-21"
         export CXX="ccache clang++-21"
+        echo "Compiler set to Clang" `${CXX} -dumpversion`
+        return
+      ;;
+    *bianbu*)
+        echo "Using Clang for Node.js $NODEJS_MAJOR_VERSION"
+        export CC="ccache clang-22 -march=rv64gc"
+        export CXX="ccache clang++-22 -march=rv64gc -DHWY_BROKEN_TARGETS=HWY_RVV"
+        export CONFIGURE_ARGS="--openssl-no-asm"
+        echo "Compiler set to Clang" `${CXX} -dumpversion`
+        return
+      ;;
+    *armbian*)
+        echo "Using Clang for Node.js $NODEJS_MAJOR_VERSION"
+        export CC="ccache clang-21 -march=rv64gc"
+        export CXX="ccache clang++-21 -march=rv64gc -DHWY_BROKEN_TARGETS=HWY_RVV"
+        export CONFIGURE_ARGS="--openssl-no-asm --v8-disable-temporal-support"
         echo "Compiler set to Clang" `${CXX} -dumpversion`
         return
       ;;
